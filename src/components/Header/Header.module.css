@@ -1,0 +1,15 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Codystar&display=swap");
+.appHeader{
+    width: 66rem;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+.appLogo{
+    height: 200px;
+}
+h1{
+    font-family: "Codystar";
+    font-size: 5.6rem;
+}
