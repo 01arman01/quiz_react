@@ -1,49 +1,47 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
 
 const reduser = (state, action) => {
     console.log(state, action)
-    if (action.type === 'inc') {
-        state.count += action.payload
-    } else if (action.type === 'dec') {
-        state.count -= action.payload
-    } else if (action.type === 'setCount') {
-        state.count = action.payload
+    switch (action.type) {
+        case 'dec':
+            return {...state, count: state.count - state.step}
+        case 'inc':
+            return {...state, count: state.count + state.step}
+        case "setCount":
+            return {...state, count: action.payload}
+        case 'setStep' :
+            return {...state, step: action.payload}
+        case 'reset':
+            return {...state, count: 0, step: 1}
+        default:
+            throw new Error('undefined')
     }
-    if (action.type === 'setStep'){
-        state.step = action.payload
-    }
-    return state
+    return {count: 0, step: 1}
 }
 
 function DataCounter(props) {
-    // const [step, setStep] = useState(0)
-    // const [count, setCoun6t] = useState(0)
     const initialState = {count: 0, step: 1}
     const [state, dispatch] = useReducer(reduser, initialState)
-
+    const {count, step} = state
 
     const date = new Date("june 21 2027")
-    date.setDate(date.getDate() + state.count)
+    date.setDate(date.getDate() + count)
 
     const defineStep = (e) => {
-        dispatch({type:'setStep', payload: +e.target.value})
+        dispatch({type: 'setStep', payload: +e.target.value})
     }
     const defineCount = (e) => {
-        // setCount(+e.target.value)
         dispatch({type: 'setCount', payload: +e.target.value})
     }
     const inc = () => {
-        // setCount(count=>count+step)
-        dispatch({type: 'inc', payload: state.step})
+        dispatch({type: 'inc', payload: step})
     }
     const dec = () => {
-        // setCount(count=>count-step)
-        dispatch({type: 'dec', payload: state.step})
+        dispatch({type: 'dec', payload: step})
     }
 
     const resetFunc = () => {
-        // setCount(0)
-
+        dispatch({type: 'reset'})
     }
 
     return (
@@ -53,16 +51,15 @@ function DataCounter(props) {
                     type="range"
                     min='0'
                     max='10'
-                    value={state.step}
+                    value={step}
                     onChange={defineStep}
                 />
-                <span>{state.step}</span>
+                <span>{step}</span>
             </div>
             <div>
                 <button onClick={dec}>-</button>
                 <input type='text'
-                       value={state.count}
-                    // disabled={true}
+                       value={count}
                        onChange={defineCount}
                 />
                 <button onClick={inc}>+</button>
