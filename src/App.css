@@ -30,10 +30,10 @@ body{
     /*float: right;*/
 }
 .footer{
-   width: 45%;
+   width: 40%;
     margin: 0 auto;
     display: flex;
-    justify-content:end;
+    justify-content:space-between;
 }
 .progress {
     margin-bottom: 4rem;

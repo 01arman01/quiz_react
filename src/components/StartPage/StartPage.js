@@ -1,14 +1,18 @@
 import React from 'react';
 import s from './StartPage.module.css'
+import StartButton from "../StartButton/StartButton";
 
 function Loader({numQuestions,dispatch}) {
     return (
         <div className={s.loader}>
             <h2>Welcome to The React Quiz!</h2>
             <h3>{numQuestions} questions to test your React mastery</h3>
-            <button className={s.btn} onClick={()=>{
-                dispatch({type:'start'})
-            }}> Let's start</button>
+            <StartButton
+                func={()=>{
+                    dispatch({type:'start'})
+                }}
+                buttonName={` Let's start`}
+            />
         </div>
     );
 }

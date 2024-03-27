@@ -10,6 +10,8 @@ import Question from "./components/Question/Question";
 import NextButton from "./components/NextButton/NextButton";
 import Progress from "./components/Progress/Progress";
 import FinishScreen from "./components/FinishScreen/FinishScreen";
+import StartButton from "./components/StartButton/StartButton";
+import Timer from "./components/Timer/Timer";
 // import DataCounter from "./DataCounter";
 
 const initialState = {
@@ -20,20 +22,21 @@ const initialState = {
     index: 0,
     answer: null,
     points: 0,
-    highScore:0
+    highScore:0,
+    secondsRemaining:6,
 
 }
 
 function App() {
 
 
-    const [{questions, status, index, answer, points, highScore}, dispatch,] = useReducer(reducer, initialState)
+    const [{questions, status, index, answer, points, highScore, secondsRemaining}, dispatch,] = useReducer(reducer, initialState)
     const numQuestions = questions.length
     // let maxPosiblePoints  = 0
     // questions.forEach(question=>{
     //     maxPosiblePoints =  question.points + maxPosiblePoints
     // })
-
+    console.log( secondsRemaining)
     useEffect(() => {
         fetch('http://192.168.34.11:9000/questions')
             .then(res => res.json())
@@ -75,21 +78,34 @@ function App() {
                     />}
                 </Main>
             </div>
-            <div className='footer'>
+            {status === 'finished' && <><FinishScreen
+                points={points}
+                maxPossiblePoints={maxPossiblePoints}
+                highScore={highScore}
+
+            />
+                <StartButton buttonName={'Restart'} func={()=>dispatch({type:'restart'})}/>
+            </>}
+
+
+            {status === 'active' && <div className='footer'>
+                <Timer
+                    secondsRemaining={secondsRemaining}
+                    dispatch={dispatch}
+
+                />
+
+
                 {/*<NextButton dispatch={dispatch} answer={answer}/>*/}
                 <NextButton
                     dispatch={dispatch}
                     answer={answer}
-                    index={index }
+                    index={index}
                     numQuestions={questions.length}
+                    status={status}
                 />
-            </div>
-            {status === 'finished' && <FinishScreen
-             points={points}
-             maxPossiblePoints={maxPossiblePoints}
-             highScore={highScore}
+            </div>}
 
-            />}
         </>
         // <div className='App'>
         //     <DataCounter />

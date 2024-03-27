@@ -11,7 +11,6 @@ function FinishScreen({points, maxPossiblePoints,highScore}) {
     if (percentage > 0 && percentage < 50) emoji = "🤔"
     if (percentage === 0) emoji = "🤦‍♂️"
 
-
     return (
         <>
             <p className={s.result}>

@@ -16,7 +16,8 @@ export function reducer(state, action) {
         case 'start':
             return {
                 ...state,
-                status: 'active'
+                status: 'active',
+                // secondsRemaining: 6
             }
         case 'newAnswer':
             const question = state.questions.at(state.index)
@@ -36,11 +37,29 @@ export function reducer(state, action) {
             return {
                 ...state,
                 status: 'finished',
-                highScore: state.highScore < state.points? state.points:state.highScore,
+                highScore: state.highScore < state.points ? state.points : state.highScore,
                 // index:0,
                 answer: null
             }
+        case'restart':
+            return {
+                ...state,
+                // questions: [],
 
+                //'loading','error','ready','active','finished'
+                status: 'ready',
+                index: 0,
+                answer: null,
+                points: 0,
+                highScore: 0,
+                secondsRemaining:6
+            }
+        case 'endTimer':
+            return {
+                ...state,
+                secondsRemaining: state.secondsRemaining - 1,
+                status: state.secondsRemaining === 0? 'finished': state.status
+            }
         default:
             throw new Error("Action unknown")
     }
